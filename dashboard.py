@@ -9,9 +9,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# =========================
-# LOGIN FUNCTION
-# =========================
 def login(username, password):
     conn = get_connection()
     cursor = conn.cursor()
@@ -28,10 +25,6 @@ def login(username, password):
     conn.close()
     return user
 
-
-# =========================
-# SESSION STATE
-# =========================
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
@@ -44,10 +37,6 @@ if "role" not in st.session_state:
 if "branch_id" not in st.session_state:
     st.session_state.branch_id = None
 
-
-# =========================
-# LOGIN SCREEN
-# =========================
 if not st.session_state.logged_in:
     st.title("Sales Management Dashboard")
     username = st.text_input("Username")
@@ -64,10 +53,6 @@ if not st.session_state.logged_in:
         else:
             st.error("Invalid Username or Password")
 
-
-# =========================
-# MAIN APPLICATION
-# =========================
 else:
     st.sidebar.success(f"Logged in as {st.session_state.username}")
     st.sidebar.write(f"Role : {st.session_state.role}")
@@ -82,9 +67,6 @@ else:
     conn = get_connection()
     st.title("Sales Management Dashboard")
 
-    # =========================
-    # LOAD GLOBAL BRANCHES REFERENCE
-    # =========================
     branches_df = pd.read_sql(
         """
         SELECT branch_id, branch_name
@@ -103,9 +85,6 @@ else:
         ]
     )
 
-    # =========================
-    # DASHBOARD TAB
-    # =========================
     with tab1:
         st.subheader("Customer Sales Data")
 
@@ -156,7 +135,6 @@ else:
         if selected_product != "All Products":
             product_condition = f"AND cs.product_name = '{selected_product}'"
 
-        # Results Table
         st.markdown("---")
         report_query = f"""
         SELECT
@@ -183,7 +161,6 @@ else:
         report_df = pd.read_sql(report_query, conn)
         st.dataframe(report_df, use_container_width=True)
 
-        # Dashboard Summary
         st.markdown("---")
         st.subheader("Dashboard Summary")
 
@@ -214,7 +191,6 @@ else:
         col_kpi3.metric("Total Pending", f"₹ {total_pending:,.0f}")
         col_kpi4.metric("Sales Records", int(total_records))
 
-        # Branch Wise Sales Graph
         st.markdown("---")
         st.subheader("Branch Wise Sales Performance")
 
@@ -237,7 +213,6 @@ else:
         fig = px.bar(branch_chart_df, x="branch_name", y="total_sales")
         st.plotly_chart(fig, use_container_width=True)
 
-        # Payment Method Summary
         st.markdown("---")
         st.subheader("Payment Method Summary")
 
@@ -285,10 +260,6 @@ else:
         fig2 = px.bar(payment_chart_df, x="payment_method", y="total_amount", title="Payment Method Summary")
         st.plotly_chart(fig2, use_container_width=True)
 
-
-    # =========================
-    # SALES ENTRY TAB
-    # =========================
     with tab2:
         st.subheader("Add New Sale")
 
@@ -328,10 +299,6 @@ else:
             except Exception as e:
                 st.error(f"Error : {e}")
 
-
-    # =========================
-    # PAYMENT ENTRY TAB
-    # =========================
     with tab3:
         st.subheader("Add Payment")
 
@@ -397,15 +364,10 @@ else:
         else:
             st.info("No Open Sales Available")
 
-
-    # =========================
-    # QUERIES TAB
-    # =========================
     with tab4:
         st.subheader("Business Insights & Database Queries")
         st.info("Explore business insights and database analytics using pre-built SQL queries.")
 
-        # Updated analysis dropdown options
         query_option = st.selectbox(
             "Select Query",
             [
@@ -430,7 +392,6 @@ else:
         is_admin = st.session_state.role != "Super Admin"
         admin_bid = st.session_state.branch_id
 
-        # Updated IF/ELIF conditional logic statements
         if query_option == "View Customer Sales Data":
             sql = "SELECT * FROM customer_sales" if not is_admin else f"SELECT * FROM customer_sales WHERE branch_id = {admin_bid}"
 
@@ -543,7 +504,4 @@ else:
         result_df = pd.read_sql(sql, conn)
         st.dataframe(result_df, use_container_width=True)
 
-    # =========================
-    # CLOSE CONNECTION
-    # =========================
     conn.close()
