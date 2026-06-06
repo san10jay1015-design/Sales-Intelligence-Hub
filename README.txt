@@ -1,43 +1,70 @@
-Project Name:
-Sales Management Dashboard
+# Sales Intelligence Hub
 
-Technology:
-Python
-Streamlit
-MySQL
+A Streamlit + MySQL based Sales Management Dashboard.
 
-Run Command:
+## Features
+
+- Super Admin Login
+- Admin Login
+- Branch Wise Access Control
+- Sales Entry
+- Payment Entry
+- Dashboard Analytics
+- Payment Method Summary
+- Customer Sales Reports
+- SQL Query Analysis Module
+
+## Technologies
+
+- Python
+- Streamlit
+- MySQL
+- Plotly
+
+## Run Project
+
+```bash
 streamlit run dashboard_v2.py
+```
 
-Login Credentials:
+## Login Credentials
 
-Super Admin:
+### Super Admin
 
 Username: superadmin
+
 Password: super123
 
-Admin :
+### Admin
 
 Username: admin_chennai
-Password: admin123
 
-Username: admin_bangalore
-Password: admin123
-
-Username: admin_hyderabad
-Password: admin123
-
-Username: admin_delhi
 Password: admin123
 
 Username: admin_mumbai
+
+Password: admin123
+
+Username: admin_hyderabad
+
+Password: admin123
+
+Username: admin_bangalore
+
 Password: admin123
 
 Username: admin_kolkata
+
 Password: admin123
 
 Username: admin_pune
+
 Password: admin123
 
 Username: admin_ahmedabad
+
+Password: admin123
+
+Username: admin_Delhi
+
 Password: admin123
